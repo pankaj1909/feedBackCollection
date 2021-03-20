@@ -32,6 +32,9 @@ passport.use(
                     } else
                         done(null, existingUser);
                 })
+                .catch((e) => {
+                    console.log("Following Error occurs", e)
+                })
 
         }
     )

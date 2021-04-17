@@ -2,12 +2,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
+const bodyParser = require('body-parser')
 const keys = require('./config/keys');
 require('./models/User')
 require('./services/passport')
 
 const app = express();
 
+//Init Middleware
+app.use(bodyParser.json())
 app.use(cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,
     keys: [keys.cookieKey]
@@ -16,7 +19,9 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
+//Define Routes
 require('./routes/authRoutes')(app)
+require('./routes/billingRoutes')(app)
 
 mongoose.connect(keys.mongoURI, {
     useUnifiedTopology: true,
@@ -24,6 +29,17 @@ mongoose.connect(keys.mongoURI, {
     useCreateIndex: true,
     useFindAndModify: false
 });
+
+//Serve Static asset in production
+if (process.env.NODE_ENV === 'production') {
+    //set static folder
+    app.use(express.static('client/build'))
+
+    const path = require('path');
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    });
+}
 
 const PORT = process.env.PORT || 5000
 

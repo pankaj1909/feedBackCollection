@@ -5,6 +5,9 @@ import App from './components/App';
 import {Provider} from "react-redux";
 import store from "./redux/store";
 
+//for development purpose only
+import axios from "axios";
+window.axios = axios
 
 ReactDOM.render(
     <React.StrictMode>

@@ -7,6 +7,14 @@ export default {
 
     async handleToken(token) {
         return await postCall('/api/stripe', token)
+    },
+
+    async submitSurvey(values) {
+        return await postCall('/api/surveys', values)
+    },
+
+    async fetchSurvey() {
+        return await getCall('/api/surveys')
     }
 
 };

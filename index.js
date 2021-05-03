@@ -4,10 +4,13 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const bodyParser = require('body-parser')
 const keys = require('./config/keys');
-require('./models/User')
-require('./services/passport')
+require('./models/User');
+require('./models/Survey');
+require('./services/passport');
 
 const app = express();
+
+mongoose.Promise = global.Promise;
 
 //Init Middleware
 app.use(bodyParser.json())
@@ -22,6 +25,7 @@ app.use(passport.session());
 //Define Routes
 require('./routes/authRoutes')(app)
 require('./routes/billingRoutes')(app)
+require('./routes/surveyRoutes')(app)
 
 mongoose.connect(keys.mongoURI, {
     useUnifiedTopology: true,

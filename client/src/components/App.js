@@ -6,15 +6,14 @@ import {fetchUserDo} from "../redux/actions/auth.action";
 
 const Header = lazy(() => import('./Header'));
 const Landing = lazy(() => import('./Landing'));
-
-const DashBoard = () => <h1>DashBoard</h1>
-const SurveyNew = () => <h1>SurveyNew</h1>
+const DashBoard = lazy(() => import('./DashBoard'));
+const SurveyNew = lazy(() => import('./surveys/SurveyNew'));
 
 function App({fetchUserDo}) {
 
     useEffect(() => {
-        fetchUserDo()
-    }, [])
+        fetchUserDo();
+    }, []);
 
     return (
         <div className={'container'}>
@@ -35,13 +34,13 @@ function App({fetchUserDo}) {
 const mapStateToProps = (state) => {
     return {
         ...state
-    }
-}
+    };
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchUserDo: bindActionCreators(fetchUserDo, dispatch)
-    }
-}
+    };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
